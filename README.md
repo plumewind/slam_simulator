@@ -8,10 +8,10 @@ How to use ?
 ------------------
 Open an Ubuntu terminal and create a workspace. Of course, you must have already installed the ROS system:
 
-mkdir ~/catkin_ws/src
-cd ~/catkin_ws/src
-git clone https://github.com/plumewind/slam_simulator.git
-cd ..
-catkin_make
-source devel/setup.bash
-roslaunch slam_simulator ukfslam_simulator.launch
+  mkdir ~/catkin_ws/src
+  cd ~/catkin_ws/src
+  git clone https://github.com/plumewind/slam_simulator.git
+  cd ..
+  catkin_make
+  source devel/setup.bash
+  roslaunch slam_simulator ukfslam_simulator.launch
