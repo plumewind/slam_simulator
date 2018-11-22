@@ -1,0 +1,14 @@
+<launch>
+
+<arg name="param_file" default="$(find slam_simulator)/param/ukf_param.yaml"/>
+
+<!-- node的三个属性分别为程序包名字pkg，可执行文件type和节点名字的名字name-->
+<node pkg="slam_simulator" type="ukf_simulator" name="ukf_simulator" output="screen">
+ <rosparam file="$(arg param_file)" command="load" />
+
+</node>
+
+ 
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_simulator)/rviz/view_ukfslam.rviz"/>
+ 
+</launch>
