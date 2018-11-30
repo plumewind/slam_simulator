@@ -1,0 +1,20 @@
+#include "slam_simulator/ukf_console.h"
+#include "slam_simulator/ekf_console.h"
+
+int main(int argc, char **argv)
+{
+	// Set up ROS node
+	ros::init(argc, argv, "simulator");
+	slam_simulator::ukf_console console(false);//Declaring the key class
+	//slam_simulator::ekf_console console;//Declaring the key class
+	
+	ROS_INFO("The simulator is start...... !");
+	console.start();				//Post the corresponding topic
+	
+ 	console.run();					//the main loop
+
+	return 0;
+}  // end main()
+
+
+

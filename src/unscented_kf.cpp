@@ -73,6 +73,7 @@ namespace slam_simulator
 			dsigma = dsigma + weights(i) * diff * diff.transpose();
 		}
 		Sigma_y.topLeftCorner(n, n) = dsigma;
+		//cout << "inside recover points" << endl;
 	}
 	void unscented_kf::Prediction(const Eigen::Vector3f& motion)
 	{
@@ -107,12 +108,12 @@ namespace slam_simulator
 		tempmu(n + 1)  	= (double)z(2);
 		Mu_x = tempmu;
 
-		//this operation initializes the uncertainty in the position of the landmark
 		Eigen::MatrixXd tempsigma = Eigen::MatrixXd::Zero(n + 2, n + 2);
 		tempsigma.topLeftCorner(n, n) = Sigma_y;
 		tempsigma.bottomRightCorner(2, 2) = Q_;
 		Sigma_y = tempsigma;
-
+		//transform from [range, bearing] to the x/y location of the landmark
+		//this operation initializes sthe uncertainty in the position of the landmark
 		//sample sigma points
 		Eigen::MatrixXd sig_pts;
 		compute_sigma_points(sig_pts);
@@ -124,19 +125,18 @@ namespace slam_simulator
 		//compute newX and newY
 		Eigen::RowVectorXd angle_c = (sig_pts.row(2) + sig_pts.row(n + 1)).array().cos();
 		Eigen::RowVectorXd angle_s = (sig_pts.row(2) + sig_pts.row(n + 1)).array().sin();
+
 		Eigen::RowVectorXd delta_X = sig_pts.row(n).array() * angle_c.array();
 		Eigen::RowVectorXd delta_Y = sig_pts.row(n).array() * angle_s.array();
 
-		//transform from [range, bearing] to the x/y location of the landmark
 		sig_pts.row(n)   = sig_pts.row(0) + delta_X ; 
 		sig_pts.row(n+1) = sig_pts.row(1) + delta_Y ; 
-		
 		//update mu and sigma
 		recover_mu_sigma(sig_pts);
 	}
 	void unscented_kf::update(const Eigen::MatrixXd& sigma_points, const Eigen::Vector3f& Z)
 	{
-		int n = sigma_points.rows();
+		 int n = sigma_points.rows();
 		int num_sig = sigma_points.cols();
 		double lambda = Scale - n;
 		int index = 0;
@@ -170,14 +170,14 @@ namespace slam_simulator
 		//It will be a 2x1 vector [expected_range; expected_bearing].
 		Eigen::VectorXd z_mean = Eigen::VectorXd::Zero(2);
 		z_mean(0) = Z_points.row(0)*weights;
-
+		// cout << "Z: mean(0): " << z_mean(0) << endl;
 		Eigen::RowVectorXd angle_c = Z_points.row(1).array().cos();
 		Eigen::RowVectorXd angle_s = Z_points.row(1).array().sin();
 		double x_bar = angle_c * weights;
 		double y_bar = angle_s * weights;
 		z_mean(1) = tool::normalize_angle(atan2(y_bar, x_bar));
 
-		// Compute the innovation covariance matrix S (2x2).
+		// TODO: Compute the innovation covariance matrix S (2x2).
 		//Compute sigma_x_z (which is equivalent to sigma times the Jacobian H transposed in EKF).
 		//sigma_x_z is an nx2 matrix, where n is the current dimensionality of mu
 		Eigen::MatrixXd S = Eigen::MatrixXd::Zero(2,2);
@@ -205,13 +205,15 @@ namespace slam_simulator
 		Mu_x = Mu_x + Kt*(zdiff);
 		Sigma_y = Sigma_y - Kt*S*Kt.transpose();
 
-		//Normalize the robot heading mu(3)
+		// TODO: Normalize the robot heading mu(3)
 		Mu_x(2) = tool::normalize_angle(Mu_x(2));
 	}
 	void unscented_kf::Correction(const std::vector< Eigen::Vector3f >& observation)
 	{
 		// number of measurements in this step
 		int m = observation.size();
+		//[range, bearing, range, bearing, .....]
+		//Jacobian matrix;
 		for (int i = 0; i < m; i++)
 		{
 			auto&  reading  = observation[i];

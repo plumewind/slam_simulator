@@ -91,6 +91,20 @@ namespace slam_simulator
 			Z(i) = normalize_angle(Z(i));
 		
 	}
+	double tool::fmod(double x, double y)
+	{
+		long n;
+		double f;
+		if((x<0.000000000000001 && x>-0.000000000000001) || (y<0.000000000000001 && y>-0.000000000000001))
+			return x;
+		f = x/y;
+		n = (long)f;
+		if(n>f) 
+			n=n-1;
+		f =x-n*y;
+		
+		return f;
+	}
 	void tool::makeRightHanded(Eigen::Matrix2d& eigenvectors, Eigen::Vector2d& eigenvalues)
 	{
 		// Note that sorting of eigenvalues may end up with left-hand coordinate system.
