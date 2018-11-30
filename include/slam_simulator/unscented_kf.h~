@@ -1,0 +1,41 @@
+#ifndef SLAM_SIMULATOR_UNSCENTED_KF_H
+#define SLAM_SIMULATOR_UNSCENTED_KF_H
+
+#include <iostream>  
+#include <vector>  
+
+#include <limits.h>
+
+#include <Eigen/Eigen>
+#include <Eigen/Core>
+
+namespace slam_simulator
+{
+
+	class unscented_kf
+	{
+	public:
+		unscented_kf();
+		~unscented_kf();
+		
+		
+		
+	private:
+		Eigen::MatrixXd Sigma_y;
+		Eigen::VectorXd Mu_x;
+		//motion noise
+		Eigen::MatrixXd R_;
+		//measurement noise
+		Eigen::MatrixXd Q_;
+		
+		// check whether the tracking toolbox was initialized or not (first measurement)
+		bool IS_initialized_;
+
+		float Scale;
+		
+		
+	};
+
+
+}
+#endif

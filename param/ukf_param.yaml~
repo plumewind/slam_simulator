@@ -1,0 +1,8 @@
+
+sensor_data_filepath:/home/lyq/catkin_slam/src/slam_simulator/param/sensor_data.txt
+
+
+
+world_data_filepath:/home/lyq/catkin_slam/src/slam_simulator/param/world_data.txt
+
+

@@ -129,6 +129,8 @@ include_directories(
 add_library(${PROJECT_NAME} SHARED
    src/unscented_kf.cpp
    src/ukf_console.cpp
+	src/extend_kf.cpp
+	src/ekf_console.cpp
    src/tool.cpp
 )
 target_link_libraries(${PROJECT_NAME}
@@ -139,8 +141,8 @@ ${catkin_LIBRARIES}
 
 
 ## Declare a C++ executable
-add_executable(ukf_simulator src/nodes/ukf_simulator.cpp)
-target_link_libraries(ukf_simulator ${PROJECT_NAME})
+add_executable(simulator src/nodes/simulator.cpp)
+target_link_libraries(simulator ${PROJECT_NAME})
 
 #############
 ## Install ##

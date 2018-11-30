@@ -1,0 +1,22 @@
+<launch>
+<arg name="lm_link" default="landmarks_link" />
+<arg name="wp_link" default="waypoints_link" />
+<arg name="odom_link" default="odom" />
+<arg name="map_param_file" default="$(find slam_simulator)/param/webmap.yaml"/>
+<arg name="config_param_file" default="$(find slam_simulator)/param/configfile.yaml"/>
+
+
+<!-- node的三个属性分别为程序包名字pkg，可执行文件type和节点名字的名字name-->
+<node pkg="slam_simulator" type="simulator" name="simulator" output="screen">
+ <param name="controller" value="ekf" /><!--这里是设置控制器类型-->
+ <rosparam file="$(arg map_param_file)" command="load" />
+ <rosparam file="$(arg config_param_file)" command="load" />
+</node>
+
+ <node pkg="tf" type="static_transform_publisher" name="map_to_lm" args="0 0 0.5 0 0 0 map $(arg lm_link) 100"/>
+ <node pkg="tf" type="static_transform_publisher" name="map_to_wp" args="0 0 0.25 0 0 0 map $(arg wp_link) 100"/>
+ <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map $(arg odom_link) 100"/>
+ 
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_simulator)/rviz/view_ekfslam.rviz"/>
+ 
+</launch>
