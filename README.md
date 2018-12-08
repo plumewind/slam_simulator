@@ -20,5 +20,5 @@ Open an Ubuntu terminal and create a workspace. Of course, you must have already
   
   source devel/setup.bash
   
-  roslaunch slam_simulator ukfslam_simulator.launch
+  roslaunch slam_simulator ekfslam_simulator.launch
   
