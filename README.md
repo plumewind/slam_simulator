@@ -2,7 +2,7 @@
 A slam simulator in a ROS environment for simulating basic slam algorithms such as ukf, ekf, etc.
 
 To watch the video, please click on the picture below!
-[![Watch the video](https://github.com/plumewind/slam_simulator/blob/master/view.png)](https://youtu.be/lP2fqqZU4sg)
+[![Watch the video](https://github.com/plumewind/slam_simulator/blob/ekf/ekf_slam.png)](https://www.youtube.com/watch?v=554A07SMJjU)
 
 How to use ?
 ------------------
