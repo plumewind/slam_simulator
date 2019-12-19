@@ -286,7 +286,7 @@ namespace slam_simulator
 		Eigen::MatrixXd  RR;
 		Eigen::MatrixXd H_temp, zp;
 		
-		if(flag == 1)
+		if(flag == 1 && Zf_len)	// 第一帧没有Zf,会导致KF_cholesky_update里面求逆崩溃
 		{
 			H.resize(2*Zf_len, x_len); 
 			H.setZero(2*Zf_len, x_len);
