@@ -306,17 +306,18 @@ namespace slam_simulator
 			}
 			KF_cholesky_update(v, RR, H);
 			
-		}else{	//原系统这里用不到
-			v.resize(2, 1); 
-			for(int i=0 ; i < Zf_len ; i++)
-			{
-				observe_model(idf[i], zp, H_temp);
-				v.setZero(2, 1);
-				v<<(Zf(0, i) - zp(0)), ( tool::normalize_angle( Zf(1,i) - zp(1) )) ;
-				//FIXME 这里的R不知道是否可行，MATLAB源码用的是RR
-				KF_cholesky_update(v, R, H_temp);
-			}
 		}
+		// else{	//原系统这里用不到
+		// 	v.resize(2, 1); 
+		// 	for(int i=0 ; i < Zf_len ; i++)
+		// 	{
+		// 		observe_model(idf[i], zp, H_temp);
+		// 		v.setZero(2, 1);
+		// 		v<<(Zf(0, i) - zp(0)), ( tool::normalize_angle( Zf(1,i) - zp(1) )) ;
+		// 		//FIXME 这里的R不知道是否可行，MATLAB源码用的是RR
+		// 		KF_cholesky_update(v, R, H_temp);
+		// 	}
+		// }
 		
 		augment();
 	}
