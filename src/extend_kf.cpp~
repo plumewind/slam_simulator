@@ -1,8 +1,0 @@
-#include "slam_simulator/extend_kf.h"
-
-namespace slam_simulator
-{
-
-
-
-}
