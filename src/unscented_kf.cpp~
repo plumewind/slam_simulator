@@ -1,4 +1,0 @@
-#include "slam_simulator/unscented_kf.h"
-
-namespace slam_simulator
-{}
